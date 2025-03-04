@@ -153,3 +153,27 @@
     align-items: center;
     gap: 20px;
 }
+
+.result img{
+    width: 40px;
+    border-radius: 50px;
+}
+
+.result-data{
+    display: flex;
+    align-items: start;
+    gap: 20px;
+}
+
+.loader{
+    width: flex;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.loader hr{
+    border-radius: 4px;
+    border: none;
+    background-color: #f6f7f8;
+}
