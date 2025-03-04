@@ -12,19 +12,19 @@ const ContextProvider = (props) => {
   const [resultData, setResultData] = useState("");
 
   const onSent = async (prompt) => {
-    
-    setResultData("")
-    setLoading(true)
-    setShowResult(true)
-    const response = await runChat(input)
-    setResultData(response)
-    setLoading(false)
-    setInput("")
-    //setLoading(true);
-    //const result = await runChat(input);  // Assuming runChat handles the API call
-    //setResultData(result);
-    //setLoading(false);
-  };
+    if (!prompt.trim()) return; 
+
+    setRecentPrompt(prompt);  
+    setShowResult(true);
+    setLoading(true);
+    setResultData("");
+
+    const response = await runChat(prompt); 
+    setResultData(response);
+
+    setLoading(false);
+    setInput("");  
+};
 
   const contextValue = {
     prevPrompts,
