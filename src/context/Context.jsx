@@ -1,39 +1,49 @@
-import runChat from "../config/gemini";
 import { createContext, useState } from "react";
+import runChat from "../config/gemini";  // Assuming runChat is a function you've created
 
 export const Context = createContext();
 
-const ContextProvider = (props) =>{
+const ContextProvider = (props) => {
+  const [input, setInput] = useState("");
+  const [recentPrompt, setRecentPrompt] = useState("");
+  const [prevPrompts, setPrevPrompts] = useState([]);
+  const [showResult, setShowResult] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [resultData, setResultData] = useState("");
 
-    const [input,setInput] = useState("");
-    const [recentPrompt, setRecentPrompt] = useState("");
-    const [prevPrompts,setPrevPrompts] = useState([]);
-    const [showResult, setShowResult] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [resultData, setResultData] = useState("");
+  const onSent = async (prompt) => {
+    
+    setResultData("")
+    setLoading(true)
+    setShowResult(true)
+    const response = await runChat(input)
+    setResultData(response)
+    setLoading(false)
+    setInput("")
+    //setLoading(true);
+    //const result = await runChat(input);  // Assuming runChat handles the API call
+    //setResultData(result);
+    //setLoading(false);
+  };
 
-    const onSent = async (prompt) => {
-        await runChat(input)
-    }
+  const contextValue = {
+    prevPrompts,
+    setPrevPrompts,
+    onSent,
+    setRecentPrompt,
+    recentPrompt,
+    showResult,
+    loading,
+    resultData,
+    input,
+    setInput
+  };
 
-    const contextValue = {
-        prevPrompts,
-        setPrevPrompts,
-        onSent,
-        setRecentPrompt,
-        recentPrompt,
-        showResult,
-        loading,
-        resultData,
-        input,
-        setInput
-    }
+  return (
+    <Context.Provider value={contextValue}>
+      {props.children}
+    </Context.Provider>
+  );
+};
 
-    return (
-        <Context.Provider value ={contextValue}>
-            {props.children}
-        </Context.Provider>
-    )
-}
-
-export default ContextProvider
+export default ContextProvider;
