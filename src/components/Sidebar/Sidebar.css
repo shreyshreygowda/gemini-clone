@@ -68,4 +68,8 @@
     cursor: pointer;
 }
 
-@media(max-width:6)
+@media(max-width:600px){
+    .sidebar{
+        display: none;
+    }
+}
